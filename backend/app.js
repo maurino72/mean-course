@@ -2,6 +2,11 @@ const express = require("express");
 
 const app = express();
 
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -13,6 +18,14 @@ app.use((req, res, next) => {
     "GET, POST, DELETE, PATCH, PUT, OPTIONS"
   );
   next();
+});
+
+app.post("/api/posts", (req, res, next) => {
+  const post = req.body;
+  console.log(post);
+  res.status(201).json({
+    message: "Post added",
+  });
 });
 
 app.use("/api/posts", (req, res, next) => {
