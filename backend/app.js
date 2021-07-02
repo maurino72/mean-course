@@ -1,6 +1,21 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const Post = require("./models/Post");
 
 const app = express();
+mongoose
+  .connect("mongodb://localhost:27017/posts", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch(() => {
+    console.error("An error occur trying to connect to database");
+  });
 
 const bodyParser = require("body-parser");
 
@@ -21,39 +36,23 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content,
+  });
+  post.save();
+
   res.status(201).json({
     message: "Post added",
   });
 });
 
 app.use("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "1503495laksmd",
-      title: "First post",
-      content: "First post content",
-    },
-    {
-      id: "askfnas2123",
-      title: "First post",
-      content: "First post content",
-    },
-    {
-      id: "120398bskjd",
-      title: "First post",
-      content: "First post content",
-    },
-    {
-      id: "a8s7d6213",
-      title: "First post",
-      content: "First post content",
-    },
-  ];
-  res.status(200).json({
-    message: "Post fetch succesfull",
-    posts: posts,
+  Post.find().then((results) => {
+    res.status(200).json({
+      message: "Post fetch succesfull",
+      posts: results,
+    });
   });
 });
 
