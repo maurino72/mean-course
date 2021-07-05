@@ -1,3 +1,4 @@
+import { AppRoutingModule } from './app-routing.module';
 import { PostListComponent } from './components/posts/post-list/post-list.componnet';
 import { HeaderComponent } from './components/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
