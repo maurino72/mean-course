@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Post = require("./models/Post");
+
+const postRoutes = require("./routes/posts");
 
 const app = express();
 mongoose
@@ -35,35 +36,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/posts", (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save().then((result) => {
-    res.status(201).json({
-      message: "Post added",
-      postId: result._id,
-    });
-  });
-});
-
-app.use("/api/posts", (req, res, next) => {
-  Post.find().then((results) => {
-    res.status(200).json({
-      message: "Post fetch succesfull",
-      posts: results,
-    });
-  });
-});
-
-app.delete("/api/posts/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
-    console.log(result);
-    res.status(200).json({
-      message: "Post deleted",
-    });
-  });
-});
+app.use("/api/posts", postRoutes);
 
 module.exports = app;
