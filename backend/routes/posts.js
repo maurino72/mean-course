@@ -25,18 +25,22 @@ const storage = multer.diskStorage({
   },
 });
 
-routes.post("", multer(storage).single("image"), (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save().then((result) => {
-    res.status(201).json({
-      message: "Post added",
-      postId: result._id,
+routes.post(
+  "",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
     });
-  });
-});
+    post.save().then((result) => {
+      res.status(201).json({
+        message: "Post added",
+        postId: result._id,
+      });
+    });
+  }
+);
 
 routes.get("", (req, res, next) => {
   Post.find().then((results) => {
