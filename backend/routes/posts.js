@@ -48,12 +48,24 @@ routes.post(
 );
 
 routes.get("", (req, res, next) => {
-  Post.find().then((results) => {
-    res.status(200).json({
-      message: "Post fetch succesfull",
-      posts: results,
+  const { pagesize, page } = req.query;
+  const postQuery = Post.find();
+  let fetchPosts;
+  if (pagesize && page) {
+    postQuery.skip(pagesize * (page - 1)).limit(+pagesize);
+  }
+  postQuery
+    .then((results) => {
+      fetchPosts = results;
+      return Post.countDocuments();
+    })
+    .then((count) => {
+      res.status(200).json({
+        message: "Post fetch succesfull",
+        posts: fetchPosts,
+        maxPosts: count,
+      });
     });
-  });
 });
 
 routes.delete("/:id", (req, res, next) => {
