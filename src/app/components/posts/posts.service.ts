@@ -89,7 +89,7 @@ export class PostsService {
       postData.append('content', content);
       postData.append('image', image, title);
     } else {
-      postData: Post = {
+      postData = {
         id: id,
         title: title,
         content: content,
