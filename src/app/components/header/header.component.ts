@@ -9,7 +9,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
-  private isAuthenticated = false;
+  public isAuthenticated = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
