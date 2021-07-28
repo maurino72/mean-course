@@ -2,7 +2,7 @@ const express = require("express");
 const Post = require("../models/Post");
 const routes = express.Router();
 const multer = require("multer");
-const checAuth = require("../middleware/check-auth");
+const checkAuth = require("../middleware/check-auth");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
